@@ -1,3 +1,4 @@
+import { useState } from "react";
 import styled from "styled-components";
 interface ContainerProps {
   bgColor: string;
@@ -20,6 +21,11 @@ interface CircleProps {
 
 function Circle({ bgColor, borderColor, text = "default text" }: CircleProps) {
   // 만약 이 prop(optional)이 존재하지 않을 시 이 값(default text)을 넣어주세요
+  const [value, setValue] = useState("");
+  // const [value, setValue] = useState<number | string>(0); //number 또는 string 타입이 될 수 있다
+  // setValue(2);
+  // setValue("hello");
+  // setValue(true);  오류남
   return (
     <Container bgColor={bgColor} borderColor={borderColor ?? bgColor}>
       {text}
