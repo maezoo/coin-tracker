@@ -11,7 +11,11 @@ function User() {
       </h1>
       <hr />
       <Link to="followers">See followers</Link>
-      <Outlet />
+      <Outlet
+        context={{
+          nameOfMyUser: users[Number(userId) - 1].name, //userId를 Number(숫자)로 변환해서-1
+        }}
+      />
     </div>
   );
 }
