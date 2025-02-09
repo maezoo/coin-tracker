@@ -1,14 +1,21 @@
-import { useState, useEffect } from "react";
-import { Link, Route, Routes, useLocation, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import {
+  Switch,
+  Route,
+  useLocation,
+  useParams,
+  useRouteMatch,
+} from "react-router-dom";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
-import Price from "./Price";
 import Chart from "./Chart";
-import { useMatch } from "react-router-dom";
+import Price from "./Price";
 
 const Title = styled.h1`
   font-size: 48px;
   color: ${(props) => props.theme.accentColor};
 `;
+
 const Loader = styled.span`
   text-align: center;
   display: block;
@@ -21,7 +28,7 @@ const Container = styled.div`
 `;
 
 const Header = styled.header`
-  height: 10vh;
+  height: 15vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -56,6 +63,7 @@ const Tabs = styled.div`
   margin: 25px 0px;
   gap: 10px;
 `;
+
 const Tab = styled.span<{ isActive: boolean }>`
   text-align: center;
   text-transform: uppercase;
@@ -70,16 +78,12 @@ const Tab = styled.span<{ isActive: boolean }>`
     display: block;
   }
 `;
+
 interface RouteParams {
   coinId: string;
 }
 interface RouteState {
   name: string;
-}
-interface LocationState {
-  state: {
-    name: string;
-  };
 }
 interface InfoData {
   id: string;
@@ -101,7 +105,6 @@ interface InfoData {
   first_data_at: string;
   last_data_at: string;
 }
-
 interface PriceData {
   id: string;
   name: string;
@@ -138,13 +141,12 @@ interface PriceData {
 
 function Coin() {
   const [loading, setLoading] = useState(true);
-  const { coinId } = useParams<{ coinId: string }>();
-  const { state } = useLocation() as LocationState;
+  const { coinId } = useParams<RouteParams>();
+  const { state } = useLocation<RouteState>();
   const [info, setInfo] = useState<InfoData>();
   const [priceInfo, setPriceInfo] = useState<PriceData>();
-  const priceMatch = useMatch("/:coinId/price");
-  const chartMatch = useMatch("/:coinId/chart");
-
+  const priceMatch = useRouteMatch("/:coinId/price");
+  const chartMatch = useRouteMatch("/:coinId/chart");
   useEffect(() => {
     (async () => {
       const infoData = await (
@@ -158,7 +160,6 @@ function Coin() {
       setLoading(false);
     })();
   }, [coinId]);
-
   return (
     <Container>
       <Header>
@@ -197,22 +198,25 @@ function Coin() {
           </Overview>
 
           <Tabs>
-            <Tab isActive={priceMatch !== null}>
-              <Link to={`/${coinId}/price`}>Price</Link>
-            </Tab>
             <Tab isActive={chartMatch !== null}>
               <Link to={`/${coinId}/chart`}>Chart</Link>
             </Tab>
+            <Tab isActive={priceMatch !== null}>
+              <Link to={`/${coinId}/price`}>Price</Link>
+            </Tab>
           </Tabs>
 
-          <Routes>
-            <Route path="price" element={<Price />} />
-            <Route path="chart" element={<Chart />} />
-          </Routes>
+          <Switch>
+            <Route path={`/:coinId/price`}>
+              <Price />
+            </Route>
+            <Route path={`/:coinId/chart`}>
+              <Chart />
+            </Route>
+          </Switch>
         </>
       )}
     </Container>
   );
 }
-
 export default Coin;

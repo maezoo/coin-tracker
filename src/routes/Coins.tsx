@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
@@ -39,6 +39,7 @@ const Title = styled.h1`
   font-size: 48px;
   color: ${(props) => props.theme.accentColor};
 `;
+
 const Loader = styled.span`
   text-align: center;
   display: block;
@@ -71,7 +72,6 @@ function Coins() {
       setLoading(false);
     })();
   }, []);
-
   return (
     <Container>
       <Header>
@@ -83,18 +83,12 @@ function Coins() {
         <CoinsList>
           {coins.map((coin) => (
             <Coin key={coin.id}>
-              {/* <Link
+              <Link
                 to={{
                   pathname: `/${coin.id}`,
                   state: { name: coin.name },
                 }}
               >
-                <Img
-                  src={`https://cryptoicon-api.pages.dev/api/icon/${coin.symbol.toLowerCase()}`}
-                />
-                {coin.name} &rarr;
-              </Link> */}
-              <Link to={`/${coin.id}`} state={{ name: coin.name }}>
                 <Img
                   src={`https://cryptoicon-api.pages.dev/api/icon/${coin.symbol.toLowerCase()}`}
                 />
