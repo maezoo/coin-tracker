@@ -16,9 +16,10 @@ export function fetchCoinTickers(coinId: string) {
 }
 
 export function fetchCoinHistory(coinId: string) {
+  const NICO_API_URL = `https://ohlcv-api.nomadcoders.workers.dev/`;
   const endDate = Math.floor(Date.now() / 1000);
   const startDate = endDate - 60 * 60 * 24 * 7 * 2; //60초 60분 24시간 7일
-  return fetch(
-    `${BASE_URL}/coins/${coinId}/ohlcv/historical?start=${startDate}&end=${endDate}`
-  ).then((response) => response.json());
+  return fetch(`${NICO_API_URL}?coinId=${coinId}`).then((response) =>
+    response.json()
+  );
 }
