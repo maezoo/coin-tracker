@@ -36,7 +36,6 @@ const Header = styled.header`
   justify-content: center;
   align-items: center;
 `;
-
 const Overview = styled.div`
   display: flex;
   justify-content: space-between;
