@@ -14,8 +14,9 @@ interface IHistorical {
 }
 interface ChartProps {
   coinId: string;
+  isDark: boolean;
 }
-function Chart({ coinId }: ChartProps) {
+function Chart({ isDark, coinId }: ChartProps) {
   const { isLoading, data } = useQuery<IHistorical[]>(
     ["ohlv", coinId],
     () => fetchCoinHistory(coinId),
@@ -41,7 +42,7 @@ function Chart({ coinId }: ChartProps) {
           ]}
           options={{
             theme: {
-              mode: "dark",
+              mode: isDark ? "dark" : "light",
             },
             chart: {
               height: 300,
