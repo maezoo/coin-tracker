@@ -1,4 +1,4 @@
-# React Masterclass
+# Coin Tracker
 
 Learn and dominate the React ecosystem once and for all.
 
